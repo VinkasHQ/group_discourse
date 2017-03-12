@@ -1,0 +1,7 @@
+en:
+  js:
+    group_discourse:
+      title: "Group Discourse"
+      label:
+        choose_group: "Choose a group"
+        primary_group: "Primary group"

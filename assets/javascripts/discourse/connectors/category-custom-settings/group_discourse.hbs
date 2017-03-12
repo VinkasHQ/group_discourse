@@ -1,0 +1,11 @@
+{{#if siteSettings.group_discourse_enabled}}
+<div class="group_discourse">
+  <label><h4>{{i18n 'group_discourse.title'}}</h4></label>
+  <section class='field'>
+    <label>
+      {{i18n 'group_discourse.label.primary_group'}}
+      {{combo-box content=groups value=category.primary_group_id none="group_discourse.label.choose_group"}}
+    </label>
+  </section>
+</div>
+{{/if}}
