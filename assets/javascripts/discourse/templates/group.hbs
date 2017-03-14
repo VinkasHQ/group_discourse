@@ -1,6 +1,10 @@
 <div class="container group">
   <div class='group-details-container'>
     <div class='group-info'>
+      {{group-membership-button model=model
+        createNewMessageViaParams='createNewMessageViaParams'
+        showLogin='showLogin'}}
+
       {{#if model.flair_url}}
         <span class='group-avatar-flair'>
           {{avatar-flair

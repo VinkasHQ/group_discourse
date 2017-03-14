@@ -78,6 +78,7 @@ export default function(filter, extras) {
             group = this.modelFor("group");
 
       this.set('group', group);
+      filter = 'group/' + group.name + '/' + filter;
 
       return findTopicList(this.store, this.topicTrackingState, filter, findOpts, findExtras).then(list => {
         this.set('topics', list);

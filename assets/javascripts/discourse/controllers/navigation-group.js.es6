@@ -1,7 +1,14 @@
 import computed from "ember-addons/ember-computed-decorators";
 import NavigationDefaultController from 'discourse/controllers/navigation/default';
+import CategoryList from 'discourse/models/category-list';
 
 export default NavigationDefaultController.extend({
+
+  @computed("group")
+  categories(group) {
+    return this._super()
+            .filter(c => group.categories.indexOf(c[`id`]) != -1)
+  },
 
   @computed("filterMode", "group")
   navItems(filterMode, group) {

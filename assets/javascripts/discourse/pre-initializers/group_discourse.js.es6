@@ -24,11 +24,33 @@ export default {
 
     });
 
+    var Tab = Em.Object.extend({
+      @computed('name')
+      location(name) {
+        return 'group.' + name;
+      },
+
+      @computed('name', 'i18nKey')
+      message(name, i18nKey) {
+        return I18n.t(`groups.${i18nKey || name}`);
+      }
+    });
+
     GroupController.reopen({
       showing: 'latest',
       navigationGroup: Ember.inject.controller('navigation-group'),
 
-      group: Em.computed.alias('navigationGroup.group')
+      group: Em.computed.alias('navigationGroup.group'),
+      tabs: [
+        Tab.create({ name: 'members' }),
+        Tab.create({ name: 'activity' }),
+        Tab.create({
+          name: 'edit', i18nKey: 'edit.title', icon: 'pencil', requiresGroupAdmin: true
+        }),
+        Tab.create({
+          name: 'logs', i18nKey: 'logs.title', icon: 'list-alt', requiresGroupAdmin: true
+        })
+      ],
     });
 
     GroupIndexRoute.reopen({
@@ -103,7 +125,7 @@ export default {
 
         if (anonymous && !Discourse.Site.currentProp('anonymous_top_menu_items').includes(testName)) return null;
         if (!Discourse.Category.list() && testName === "categories") return null;
-        if (!Discourse.Site.currentProp('top_menu_items').includes(testName)) return null;
+        //if (!Discourse.Site.currentProp('group_menu_items').includes(testName)) return null;
 
         var args = { name: name, hasIcon: name === "unread" }, extra = null, self = this;
         if (opts.category) { args.category = opts.category; }
@@ -123,7 +145,7 @@ export default {
 
         if (group) { args.group = group; }
 
-        let items = Discourse.SiteSettings.top_menu.split("|");
+        let items = Discourse.SiteSettings.group_menu.split("|");
 
         if (args.filterMode && !_.some(items, i => i.indexOf(args.filterMode) !== -1)) {
           items.push(args.filterMode);
